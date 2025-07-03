@@ -19,8 +19,7 @@
       color: #ffffff;
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh; /* Use min-height to allow content expansion */
     }
 
     .chat-container {
@@ -75,6 +74,10 @@
       border-top: 1px solid #333;
       background: #1b1b2b;
       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      position: sticky; /* Stick to the bottom */
+      bottom: 0;
+      width: 100%;
+      z-index: 10; /* Ensure it stays above other content */
     }
 
     .input-container {
@@ -83,36 +86,26 @@
       flex: 1;
       position: relative;
     }
- .icon-button {
-  font-size: 20px;
-  color: #ccc;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: color 0.2s ease, background-color 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px; /* Circle size */
-  height: 36px; /* Circle size */
-  background-color: #2d2d44; /* Background color for the circle */
-  border-radius: 50%; /* Makes it circular */
-  border: 1px solid #444; /* Subtle border for contrast */
-}
 
-.icon-button:hover {
-  color: #4a90e2;
-  background-color: #3a3a55; /* Slightly lighter on hover */
-}
     .icon-button {
       font-size: 20px;
       color: #ccc;
       cursor: pointer;
       margin-right: 10px;
-      transition: color 0.2s ease;
+      transition: color 0.2s ease, background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background-color: #2d2d44;
+      border-radius: 50%;
+      border: 1px solid #444;
     }
 
     .icon-button:hover {
       color: #4a90e2;
+      background-color: #3a3a55;
     }
 
     input[type="file"] {
@@ -214,6 +207,8 @@
 
       .icon-button {
         font-size: 18px;
+        width: 32px;
+        height: 32px;
       }
 
       .input-area {
@@ -228,6 +223,15 @@
 
       button {
         padding: 8px 12px;
+      }
+    }
+
+    /* Fallback for browsers that don't support position: sticky */
+    @supports not (position: sticky) {
+      .input-area {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
       }
     }
   </style>
@@ -265,7 +269,7 @@
 
     // Typewriter effect for AI messages
     function typewriterEffect(text, element, callback) {
-      let i = 0;
+      let i = 0; // Fixed: Initialize i
       element.textContent = '';
       typingInterval = setInterval(() => {
         if (i < text.length) {
@@ -371,4 +375,4 @@
     });
   </script>
 </body>
-  </html>
+</html>
