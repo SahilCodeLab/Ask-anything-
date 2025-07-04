@@ -13,24 +13,26 @@
       font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
     }
     
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    
     body {
       background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
       color: #ffffff;
-      height: 100vh;
-      overflow: hidden;
-      position: fixed;
-      width: 100%;
+      display: flex;
+      flex-direction: column;
     }
     
     .chat-app {
-      width: 100%;
-      height: 100vh;
-      background: rgba(25, 25, 45, 0.9);
       display: flex;
       flex-direction: column;
-      position: fixed;
-      top: 0;
-      left: 0;
+      height: 100vh;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(25, 25, 45, 0.9);
     }
     
     .header {
@@ -38,7 +40,6 @@
       text-align: center;
       background: rgba(30, 30, 55, 0.9);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      position: relative;
       flex-shrink: 0;
     }
     
@@ -67,6 +68,13 @@
       font-weight: 700;
     }
     
+    .chat-container-wrapper {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
     .chat-container {
       flex: 1;
       overflow-y: auto;
@@ -74,7 +82,6 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
-      scroll-behavior: smooth;
     }
     
     .message {
@@ -273,12 +280,10 @@
     /* Responsive design */
     @media (min-width: 768px) {
       .chat-app {
-        max-width: 800px;
-        left: 50%;
-        transform: translateX(-50%);
         height: 95vh;
-        top: 2.5vh;
+        margin-top: 2.5vh;
         border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       }
       
       .header {
@@ -352,9 +357,11 @@
       </div>
     </div>
     
-    <div class="chat-container" id="chatBox">
-      <div class="message ai" data-time="Just now">
-        Hello! I'm SRGPT, your AI assistant. How can I help you today?
+    <div class="chat-container-wrapper">
+      <div class="chat-container" id="chatBox">
+        <div class="message ai" data-time="Just now">
+          Hello! I'm SRGPT, your AI assistant. How can I help you today?
+        </div>
       </div>
     </div>
     
