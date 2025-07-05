@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>SRGPT - AI Chat Assistant</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -12,19 +12,19 @@
       box-sizing: border-box;
       font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
     }
-    
+
     html, body {
       height: 100%;
       overflow: hidden;
     }
-    
+
     body {
       background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
       color: #ffffff;
       display: flex;
       flex-direction: column;
     }
-    
+
     .chat-app {
       display: flex;
       flex-direction: column;
@@ -34,7 +34,7 @@
       margin: 0 auto;
       background: rgba(25, 25, 45, 0.9);
     }
-    
+
     .header {
       padding: 15px 20px;
       text-align: center;
@@ -42,14 +42,14 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       flex-shrink: 0;
     }
-    
+
     .logo {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
     }
-    
+
     .logo-icon {
       width: 36px;
       height: 36px;
@@ -59,7 +59,7 @@
       align-items: center;
       justify-content: center;
     }
-    
+
     .logo h1 {
       font-size: 1.4rem;
       background: linear-gradient(45deg, #4a90e2, #8e44ad);
@@ -67,14 +67,14 @@
       -webkit-text-fill-color: transparent;
       font-weight: 700;
     }
-    
+
     .chat-container-wrapper {
       flex: 1;
       overflow: hidden;
       display: flex;
       flex-direction: column;
     }
-    
+
     .chat-container {
       flex: 1;
       overflow-y: auto;
@@ -83,7 +83,7 @@
       flex-direction: column;
       gap: 20px;
     }
-    
+
     .message {
       max-width: 85%;
       padding: 14px 18px;
@@ -93,22 +93,23 @@
       animation: slideIn 0.3s ease;
       font-size: 1rem;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      white-space: pre-wrap;
     }
-    
+
     .user {
       align-self: flex-end;
       background: linear-gradient(45deg, #4a90e2, #357abd);
       color: white;
       border-bottom-right-radius: 4px;
     }
-    
+
     .ai {
       align-self: flex-start;
       background: rgba(45, 45, 70, 0.9);
       color: #e1e1e1;
       border-bottom-left-radius: 4px;
     }
-    
+
     .message::after {
       content: attr(data-time);
       font-size: 0.7rem;
@@ -116,15 +117,15 @@
       position: absolute;
       bottom: -20px;
     }
-    
+
     .user::after {
       right: 10px;
     }
-    
+
     .ai::after {
       left: 10px;
     }
-    
+
     .typing-indicator {
       align-self: flex-start;
       background: rgba(45, 45, 70, 0.9);
@@ -137,13 +138,13 @@
       border-bottom-left-radius: 4px;
       max-width: 200px;
     }
-    
+
     .typing-dots {
       display: flex;
       align-items: center;
       gap: 4px;
     }
-    
+
     .dot {
       width: 8px;
       height: 8px;
@@ -152,32 +153,32 @@
       opacity: 0.6;
       animation: bounce 1.5s infinite ease-in-out;
     }
-    
+
     .dot:nth-child(1) {
       animation-delay: 0s;
     }
-    
+
     .dot:nth-child(2) {
       animation-delay: 0.15s;
     }
-    
+
     .dot:nth-child(3) {
       animation-delay: 0.3s;
     }
-    
+
     .typing-text {
       font-size: 0.9rem;
       color: rgba(255, 255, 255, 0.8);
       margin-left: 8px;
     }
-    
+
     .input-area {
       padding: 15px;
       background: rgba(25, 25, 45, 0.95);
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       flex-shrink: 0;
     }
-    
+
     .input-container {
       display: flex;
       background: rgba(40, 40, 60, 0.8);
@@ -186,13 +187,14 @@
       align-items: center;
       transition: all 0.3s ease;
       border: 1px solid rgba(255, 255, 255, 0.1);
+      -webkit-overflow-scrolling: touch;
     }
-    
+
     .input-container:focus-within {
       border-color: #4a90e2;
       box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
     }
-    
+
     textarea {
       flex: 1;
       background: transparent;
@@ -204,12 +206,16 @@
       outline: none;
       max-height: 120px;
       font-family: inherit;
+      white-space: pre-wrap;
+      -webkit-user-select: text;
+      user-select: text;
+      -webkit-tap-highlight-color: transparent;
     }
-    
+
     textarea::placeholder {
       color: rgba(255, 255, 255, 0.4);
     }
-    
+
     button {
       background: linear-gradient(45deg, #4a90e2, #357abd);
       color: white;
@@ -225,17 +231,20 @@
       font-size: 18px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
-    
+
+    button.stop {
+      background: linear-gradient(45deg, #357abd, #4a90e2);
+    }
+
     button:hover {
       transform: scale(1.05);
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     }
-    
+
     button:active {
       transform: scale(0.95);
     }
-    
-    /* Animations */
+
     @keyframes slideIn {
       from {
         opacity: 0;
@@ -246,7 +255,7 @@
         transform: translateY(0);
       }
     }
-    
+
     @keyframes bounce {
       0%, 100% {
         transform: translateY(0);
@@ -257,27 +266,25 @@
         opacity: 1;
       }
     }
-    
-    /* Scrollbar styling */
+
     .chat-container::-webkit-scrollbar {
       width: 8px;
     }
-    
+
     .chat-container::-webkit-scrollbar-track {
       background: rgba(20, 20, 35, 0.5);
       border-radius: 4px;
     }
-    
+
     .chat-container::-webkit-scrollbar-thumb {
       background: rgba(74, 144, 226, 0.5);
       border-radius: 4px;
     }
-    
+
     .chat-container::-webkit-scrollbar-thumb:hover {
       background: rgba(74, 144, 226, 0.7);
     }
-    
-    /* Responsive design */
+
     @media (min-width: 768px) {
       .chat-app {
         height: 95vh;
@@ -285,61 +292,65 @@
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       }
-      
+
       .header {
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
       }
-      
+
       .input-area {
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
       }
     }
-    
+
     @media (max-width: 600px) {
       .header {
         padding: 12px 15px;
       }
-      
+
       .logo h1 {
         font-size: 1.3rem;
       }
-      
+
       .logo-icon {
         width: 32px;
         height: 32px;
       }
-      
+
       .chat-container {
         padding: 15px;
       }
-      
+
       .message {
         max-width: 90%;
         padding: 12px 16px;
         font-size: 0.95rem;
       }
-      
+
       .input-area {
         padding: 12px;
       }
-      
+
       button {
         width: 40px;
         height: 40px;
       }
-      
+
       .typing-indicator {
         padding: 12px 16px;
       }
+      
+      textarea::placeholder {
+        font-size: 0.9rem;
+      }
     }
-    
+
     @media (max-width: 400px) {
       .logo h1 {
         font-size: 1.2rem;
       }
-      
+
       .message {
         max-width: 95%;
       }
@@ -356,7 +367,7 @@
         <h1>SRGPT</h1>
       </div>
     </div>
-    
+
     <div class="chat-container-wrapper">
       <div class="chat-container" id="chatBox">
         <div class="message ai" data-time="Just now">
@@ -364,7 +375,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="input-area">
       <div class="input-container">
         <textarea id="question" rows="1" placeholder="Type your message..."></textarea>
@@ -377,27 +388,31 @@
 
   <script>
     const chatBox = document.getElementById('chatBox');
+    const sendBtn = document.getElementById('sendBtn');
     const history = [];
     let isTyping = false;
-    
-    // Function to get current time
+    let typingInterval;
+    let currentAiMessage;
+    let controller = new AbortController();
+
+    // Detect mobile device
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
     function getTime() {
       const now = new Date();
       return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
-    
-    // Auto-resize textarea
+
     function resizeTextarea() {
       const textarea = document.getElementById('question');
       textarea.style.height = 'auto';
       textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
     }
-    
-    // Show typing indicator
+
     function showTypingIndicator() {
       const existingIndicator = document.querySelector('.typing-indicator');
       if (existingIndicator) return;
-      
+
       const indicator = document.createElement('div');
       indicator.className = 'typing-indicator';
       indicator.innerHTML = `
@@ -408,116 +423,170 @@
         </div>
         <div class="typing-text">SRGPT is typing...</div>
       `;
-      
+
       chatBox.appendChild(indicator);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
-    
-    // Hide typing indicator
+
     function hideTypingIndicator() {
       const indicator = document.querySelector('.typing-indicator');
       if (indicator) indicator.remove();
     }
-    
-    // Append message to chat
+
     function appendMessage(type, content) {
       const msg = document.createElement('div');
       msg.className = `message ${type}`;
       msg.setAttribute('data-time', getTime());
-      msg.textContent = content;
       
-      // Insert before typing indicator if it exists
+      const textNode = document.createTextNode(content);
+      msg.appendChild(textNode);
+
       const indicator = document.querySelector('.typing-indicator');
       if (indicator) {
         chatBox.insertBefore(msg, indicator);
       } else {
         chatBox.appendChild(msg);
       }
-      
+
       chatBox.scrollTop = chatBox.scrollHeight;
       return msg;
     }
-    
-    // Typewriter effect for AI messages
+
+    function updateSendButton() {
+      if (isTyping) {
+        sendBtn.innerHTML = '<i class="fas fa-stop"></i>';
+        sendBtn.classList.add('stop');
+      } else {
+        sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        sendBtn.classList.remove('stop');
+      }
+    }
+
+    function stopGeneration() {
+      controller.abort();
+      controller = new AbortController();
+      clearInterval(typingInterval);
+      isTyping = false;
+      hideTypingIndicator();
+      updateSendButton();
+      
+      if (currentAiMessage) {
+        currentAiMessage.textContent += ' (stopped)';
+        currentAiMessage = null;
+      }
+    }
+
     function typewriterEffect(text, element) {
       return new Promise((resolve) => {
         let i = 0;
         element.textContent = '';
         isTyping = true;
+        currentAiMessage = element;
         showTypingIndicator();
-        
-        const typingInterval = setInterval(() => {
+        updateSendButton();
+
+        typingInterval = setInterval(() => {
           if (i < text.length) {
-            element.textContent += text[i];
+            if (text[i] === '\n') {
+              element.appendChild(document.createElement('br'));
+            } else {
+              element.appendChild(document.createTextNode(text[i]));
+            }
             i++;
             chatBox.scrollTop = chatBox.scrollHeight;
           } else {
             clearInterval(typingInterval);
             isTyping = false;
+            currentAiMessage = null;
             hideTypingIndicator();
+            updateSendButton();
             resolve();
           }
         }, 20);
       });
     }
-    
-    // Main AI function
+
     async function askAI() {
       const input = document.getElementById('question');
-      const question = input.value.trim();
-      if (!question) return;
-      
+      const question = input.value;
+      if (!question.trim()) return;
+
       input.value = '';
       resizeTextarea();
-      
-      // Add user message to history and display
+
       history.push({ role: 'user', message: question });
       appendMessage('user', question);
-      
+
       try {
-        // Show typing indicator
         showTypingIndicator();
-        
-        // Send request to your backend
+        isTyping = true;
+        updateSendButton();
+
         const res = await fetch('https://ask-anything-ees1.onrender.com/ask', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question, history })
+          body: JSON.stringify({ question, history }),
+          signal: controller.signal
         });
-        
+
         const data = await res.json();
         const answer = data.answer || '⚠️ No answer found';
-        
-        // Add AI response to history
+
         history.push({ role: 'SRGPT', message: answer });
-        
-        // Hide typing indicator
         hideTypingIndicator();
-        
-        // Display AI response with typewriter effect
+
         const aiMessage = appendMessage('ai', '');
         await typewriterEffect(answer, aiMessage);
       } catch (err) {
-        hideTypingIndicator();
-        appendMessage('ai', 'Sorry, I encountered an error. Please try again.');
+        if (err.name !== 'AbortError') {
+          hideTypingIndicator();
+          appendMessage('ai', 'Sorry, I encountered an error. Please try again.');
+        }
+      } finally {
+        isTyping = false;
+        updateSendButton();
       }
     }
-    
+
     // Event listeners
-    document.getElementById('sendBtn').addEventListener('click', askAI);
-    
+    sendBtn.addEventListener('click', function() {
+      if (isTyping) {
+        stopGeneration();
+      } else {
+        askAI();
+      }
+    });
+
     document.getElementById('question').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
+      // On mobile - Enter key creates line breaks, doesn't send
+      if (isMobile && e.key === 'Enter') {
+        // Allow default behavior (line break)
+        return;
+      }
+      
+      // On desktop - Shift+Enter sends message
+      if (!isMobile && e.key === 'Enter' && e.shiftKey) {
         e.preventDefault();
         askAI();
       }
     });
-    
+
     document.getElementById('question').addEventListener('input', resizeTextarea);
-    
-    // Initial resize
+
+    // Mobile touch handling
+    document.getElementById('question').addEventListener('touchstart', function(e) {
+      this.focus();
+    }, { passive: true });
+
+    // Initialize
     window.addEventListener('load', () => {
       resizeTextarea();
+      
+      // Set appropriate placeholder text
+      const textarea = document.getElementById('question');
+      textarea.placeholder = isMobile 
+        ? "SRGPT is here to help..." 
+        : "SRGPT is here to help...";
     });
   </script>
 </body>
